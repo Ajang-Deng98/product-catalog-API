@@ -116,12 +116,6 @@ MONGODB_URI=mongodb://localhost:27017/product-catalog
 mongod --dbpath /path/to/data
 ```
 
-#### Option 2: MongoDB Atlas (Cloud)
-```bash
-# Update .env with Atlas connection string:
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/product-catalog
-```
-
 ## 🚨 **Troubleshooting**
 
 ### Common Issues & Solutions
