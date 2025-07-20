@@ -5,26 +5,26 @@ https://youtu.be/iAYjkwDqE8Q
 
 # Product Catalog API
 
-🚀 A comprehensive RESTful API for managing product catalogs in an e-commerce platform, built with Node.js, Express.js, and MongoDB.
+A comprehensive RESTful API for managing product catalogs in an e-commerce platform, built with Node.js, Express.js, and MongoDB.
 
 [![Node.js](https://img.shields.io/badge/Node.js-v14+-green.svg)](https://nodejs.org/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-4.4+-green.svg)](https://www.mongodb.com/)
 [![Express.js](https://img.shields.io/badge/Express.js-4.18+-blue.svg)](https://expressjs.com/)
 [![Swagger](https://img.shields.io/badge/API-Documented-orange.svg)](http://localhost:1991/api-docs)
 
-## ✨ Features
+## Features
 
-- 🛍️ **Product Management**: Full CRUD operations with variants support
-- 📂 **Category Management**: Organize products under hierarchical categories
-- 🔍 **Advanced Search**: Text search, filtering, sorting, and pagination
-- 📦 **Inventory Tracking**: Real-time stock management per variant
-- 💰 **Pricing & Discounts**: Flexible pricing with discount support
-- 📊 **Reporting**: Low-stock alerts and inventory insights
-- 📚 **Swagger Documentation**: Interactive API documentation
-- 🛡️ **Security**: Input validation, rate limiting, and error handling
-- ⚡ **Performance**: Optimized MongoDB queries with indexing
+- **Product Management**: Full CRUD operations with variants support
+- **Category Management**: Organize products under hierarchical categories
+- **Advanced Search**: Text search, filtering, sorting, and pagination
+- **Inventory Tracking**: Real-time stock management per variant
+- **Pricing & Discounts**: Flexible pricing with discount support
+- **Reporting**: Low-stock alerts and inventory insights
+- **Swagger Documentation**: Interactive API documentation
+- **Security**: Input validation, rate limiting, and error handling
+- **Performance**: Optimized MongoDB queries with indexing
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - **Node.js** v14 or higher
@@ -73,11 +73,11 @@ npm start
 - **Health Check**: http://localhost:1991/health
 - **Base API**: http://localhost:1991/api
 
-## 📡 API Endpoints
+## API Endpoints
 
 **Base URL**: `http://localhost:1991`
 
-### 🛍️ Products
+### Products
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
 | `GET` | `/api/products` | Get all products (with filtering) | None |
@@ -89,7 +89,7 @@ npm start
 | `GET` | `/api/products/reports/inventory-summary` |: Inventory statistics | None |
 | `GET` | `/api/products/reports/by-category` |: Products by category | None |
 
-### 📂 Categories
+### Categories
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
 | `GET` | `/api/categories` | Get all categories (with search) | None |
@@ -98,13 +98,13 @@ npm start
 | `PUT` | `/api/categories/:id` | Update category | None |
 | `DELETE` | `/api/categories/:id` | Delete category | None |
 
-### 🔧 System
+### System
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | `GET` | `/health` | API health status |
 | `GET` | `/api-docs` | Swagger documentation |
 
-## 🔍 Advanced Search & Filtering
+## Advanced Search & Filtering
 
 ### Query Parameters
 ```http
@@ -140,7 +140,7 @@ GET /api/categories?search=electronics&dateFrom=2023-01-01&sortBy=name&order=asc
 
 `
 
-## 📝 Sample Usage
+## Sample Usage
 
 ### Step 1: Create Category
 ```http
@@ -197,7 +197,7 @@ Content-Type: application/json
 }
 ```
 
-## 📦 **More Product Examples**
+## **More Product Examples**
 
 ### Example 1: Electronics Product with Multiple Variants
 ```http
@@ -375,18 +375,18 @@ Content-Type: application/json
 }
 ```
 
-## 💡 **Product Creation Tips**
+## **Product Creation Tips**
 
 ### **Required Fields:**
-- ✅ `name` - Product name (1-100 characters)
-- ✅ `description` - Detailed description (1-1000 characters)  
-- ✅ `category` - Valid category ID (must exist)
-- ✅ `basePrice` - Base price (positive number)
+- `name` - Product name (1-100 characters)
+- `description` - Detailed description (1-1000 characters)  
+- `category` - Valid category ID (must exist)
+- `basePrice` - Base price (positive number)
 
 ### **Variant Requirements:**
-- ✅ `sku` - Unique product identifier
-- ✅ `price` - Variant-specific price
-- ✅ `inventory` - Stock quantity (0 or positive)
+- `sku` - Unique product identifier
+- `price` - Variant-specific price
+- `inventory` - Stock quantity (0 or positive)
 
 ### **Optional Fields:**
 - `variants` - Array of product variations
@@ -510,7 +510,7 @@ Content-Type: application/json
 }
 ```
 
-## 🧪 Testing
+## Testing
 
 ### Option 1: Swagger UI (Recommended)
 1. Visit: http://localhost:1991/api-docs
@@ -558,45 +558,45 @@ curl -X PUT http://localhost:1991/api/products/{id} \
   }'
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 formativeassignment/
-├── 📁 config/
+├── config/
 │   ├── database.js           # MongoDB connection setup
 │   └── swagger.js            # Swagger documentation config
-├── 📁 controllers/
+├── controllers/
 │   ├── productController.js  # Product business logic
 │   └── categoryController.js # Category business logic
-├── 📁 middleware/
+├── middleware/
 │   ├── errorHandler.js       # Global error handling
 │   └── validation.js         # Input validation rules
-├── 📁 models/
+├── models/
 │   ├── Product.js            # Product MongoDB schema
 │   └── Category.js           # Category MongoDB schema
-├── 📁 routes/
+├── routes/
 │   ├── products.js           # Product API routes
 │   └── categories.js         # Category API routes
-├── 📄 server.js              # Main application entry point
-├── 📄 package.json           # Dependencies and scripts
-├── 📄 .env                   # Environment variables
-├── 📄 .gitignore            # Git ignore rules
-├── 📄 README.md             # This file
-├── 📄 API-DOCUMENTATION.md  # Detailed API docs
-└── 📄 SETUP-GUIDE.md        # Setup instructions
+├── server.js              # Main application entry point
+├── package.json           # Dependencies and scripts
+├── .env                   # Environment variables
+├── .gitignore            # Git ignore rules
+├── README.md             # This file
+├── API-DOCUMENTATION.md  # Detailed API docs
+└── SETUP-GUIDE.md        # Setup instructions
 ```
 
-## 🛡️ Security Features
+## Security Features
 
-- **🔒 Helmet.js**: Security headers protection
-- **🌐 CORS**: Cross-origin resource sharing control
-- **⏱️ Rate Limiting**: 100 requests per 15 minutes per IP
-- **✅ Input Validation**: Comprehensive request validation
-- **🧹 Data Sanitization**: MongoDB injection prevention
-- **🚫 Error Handling**: No sensitive data exposure
-- **📝 Request Logging**: Activity monitoring
+- **Helmet.js**: Security headers protection
+- **CORS**: Cross-origin resource sharing control
+- **Rate Limiting**: 100 requests per 15 minutes per IP
+- **Input Validation**: Comprehensive request validation
+- **Data Sanitization**: MongoDB injection prevention
+- **Error Handling**: No sensitive data exposure
+- **Request Logging**: Activity monitoring
 
-## ⚠️ Error Handling
+## Error Handling
 
 ### Response Format
 ```json
@@ -623,7 +623,7 @@ formativeassignment/
 
 ### Common PUT Operation Issues
 
-#### ❌ **404 Not Found Error**
+#### **404 Not Found Error**
 ```bash
 # WRONG - Missing ID in URL
 PUT http://localhost:1991/api/categories
@@ -633,7 +633,7 @@ PUT http://localhost:1991/api/categories
 PUT http://localhost:1991/api/categories/64f5a1b2c3d4e5f6a7b8c9d0
 ```
 
-#### ✅ **Proper PUT Request Format**
+#### **Proper PUT Request Format**
 ```http
 PUT http://localhost:1991/api/categories/{valid-category-id}
 Content-Type: application/json
@@ -644,7 +644,7 @@ Content-Type: application/json
 }
 ```
 
-#### 🔍 **How to Get Valid IDs**
+#### **How to Get Valid IDs**
 1. **Create a resource first** (POST request)
 2. **Copy the `_id` from the response**
 3. **Use that ID in your PUT request URL**
@@ -661,28 +661,28 @@ PUT /api/categories/abc123...
 ### HTTP Status Codes
 | Code | Status | Description |
 |------|--------|-------------|
-| `200` | ✅ OK | Request successful |
-| `201` | ✅ Created | Resource created successfully |
-| `400` | ❌ Bad Request | Invalid request data |
-| `404` | ❌ Not Found | Resource not found |
-| `500` | ❌ Server Error | Internal server error |
+| `200` | OK | Request successful |
+| `201` | Created | Resource created successfully |
+| `400` | Bad Request | Invalid request data |
+| `404` | Not Found | Resource not found |
+| `500` | Server Error | Internal server error |
 
-## 📚 Documentation
+## Documentation
 
-### 📖 Available Documentation
+### Available Documentation
 - **[API Documentation](./API-DOCUMENTATION.md)**: Complete endpoint reference
 - **[Setup Guide](./SETUP-GUIDE.md)**: Installation and configuration
 - **[Swagger UI](http://localhost:1991/api-docs)**: Interactive API explorer
 - **[Swagger UI](http://localhost:1991/api-docs)**: Interactive testing interface
 
-### 🎯 Key Features
+### Key Features
 - **Interactive Testing**: Swagger UI with try-it-out functionality
 - **Request/Response Examples**: Complete with sample data
 - **Error Documentation**: All possible error scenarios
 - **Setup Instructions**: Step-by-step installation guide
 - **Troubleshooting**: Common issues and solutions
 
-## 🚀 Get ting Started
+## Getting Started
 
 1. **Quick Setup**: Follow the installation steps above
 2. **Test Health**: Visit http://localhost:1991/health
@@ -690,7 +690,7 @@ PUT /api/categories/abc123...
 4. **Test API**: Use Swagger UI for interactive testing
 5. **Build Features**: Start with categories, then add products
 
-## 📊 Performance
+## Performance
 
 - **Database Indexing**: Optimized MongoDB queries
 - **Pagination**: Efficient data loading
@@ -698,7 +698,7 @@ PUT /api/categories/abc123...
 - **Rate Limiting**: API protection
 - **Error Handling**: Graceful failure management
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create feature branch (`git checkout -b feature/amazing-feature`)
@@ -712,4 +712,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ---
 
-**🎯 Status**: Production Ready | **📚 Docs**: Complete | **🧪 Tests**: Available | **🛡️ Security**: Implemented
+**Status**: Production Ready | **Docs**: Complete | **Tests**: Available | **Security**: Implemented

@@ -1,12 +1,12 @@
-# 🚀 Product Catalog API - Setup Guide
+# Product Catalog API - Setup Guide
 
-## 📋 **Prerequisites**
+## **Prerequisites**
 - Node.js v14 or higher
 - MongoDB (local installation or cloud service)
 - Git (optional)
 - Postman/Insomnia (for testing)
 
-## ⚡ **Quick Setup (5 minutes)**
+## **Quick Setup (5 minutes)**
 
 ### Step 1: Install Dependencies
 ```bash
@@ -47,7 +47,7 @@ curl http://localhost:1991/health
 }
 ```
 
-## 🧪 **Testing Your Setup**
+## **Testing Your Setup**
 
 ### Option 1: Using HTTP Files (Recommended)
 1. Open `simple-test.http` in VS Code
@@ -79,7 +79,7 @@ curl http://localhost:1991/api/products/reports/inventory-summary
 curl http://localhost:1991/api/products/reports/by-category
 ```
 
-## 📁 **Project Structure**
+## **Project Structure**
 ```
 formativeassignment/
 ├── config/
@@ -104,7 +104,7 @@ formativeassignment/
 └── README.md
 ```
 
-## 🔧 **Configuration Options**
+## **Configuration Options**
 
 ### Environment Variables
 ```bash
@@ -125,7 +125,7 @@ MONGODB_URI=mongodb://localhost:27017/product-catalog
 mongod --dbpath /path/to/data
 ```
 
-## 🚨 **Troubleshooting**
+## **Troubleshooting**
 
 ### Common Issues & Solutions
 
@@ -159,7 +159,7 @@ npm install
 # Solution: Create category first, then use its ID in products
 ```
 
-## 📊 **Development Workflow**
+## **Development Workflow**
 
 ### 1. Start Development Server
 ```bash
@@ -180,15 +180,15 @@ npm run dev  # Uses nodemon for auto-restart
 # - Error messages
 ```
 
-## 🎯 **Ready to Use!**
+## **Ready to Use!**
 
 Your API is now ready with:
-- ✅ All endpoints functional
-- ✅ Database connected
-- ✅ Documentation available
-- ✅ Testing tools ready
+- All endpoints functional
+- Database connected
+- Documentation available
+- Testing tools ready
 
-## 🆕 **New Enhanced Features**
+## **New Enhanced Features**
 
 ### **Enhanced Search & Filtering**
 ```bash
@@ -236,7 +236,7 @@ GET /api/categories?dateFrom=2023-01-01&dateTo=2023-12-31
 5. **Combine multiple filters** for complex queries
 
 Visit **http://localhost:1991/api-docs** for interactive testing of all new features!
-- ✅ Error handling active
+- Error handling active
 
 **Next Steps:**
 1. Create your first category
