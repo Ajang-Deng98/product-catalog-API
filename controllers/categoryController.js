@@ -5,7 +5,28 @@ const Product = require('../models/Product');
 // @route   GET /api/categories
 const getCategories = async (req, res, next) => {
   try {
-    const categories = await Category.find({ isActive: true }).sort({ name: 1 });
+    const { search, dateFrom, dateTo, sortBy = 'name', order = 'asc' } = req.query;
+    
+    let query = { isActive: true };
+    
+    // Text search
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } }
+      ];
+    }
+    
+    // Date range filter
+    if (dateFrom || dateTo) {
+      query.createdAt = {};
+      if (dateFrom) query.createdAt.$gte = new Date(dateFrom);
+      if (dateTo) query.createdAt.$lte = new Date(dateTo);
+    }
+    
+    const sortOrder = order === 'desc' ? -1 : 1;
+    
+    const categories = await Category.find(query).sort({ [sortBy]: sortOrder });
     res.json({ success: true, count: categories.length, data: categories });
   } catch (error) {
     next(error);

@@ -5,7 +5,9 @@ const {
   createProduct,
   updateProduct,
   deleteProduct,
-  getLowStockProducts
+  getLowStockProducts,
+  getInventorySummary,
+  getProductsByCategory
 } = require('../controllers/productController');
 const { validateProduct, validateObjectId } = require('../middleware/validation');
 
@@ -81,6 +83,20 @@ const router = express.Router();
  *         name: maxPrice
  *         schema:
  *           type: number
+ *       - in: query
+ *         name: dateFrom
+ *         schema:
+ *           type: string
+ *           format: date
+ *       - in: query
+ *         name: dateTo
+ *         schema:
+ *           type: string
+ *           format: date
+ *       - in: query
+ *         name: inStock
+ *         schema:
+ *           type: boolean
  *     responses:
  *       200:
  *         description: List of products
@@ -104,6 +120,30 @@ router.get('/', getProducts);
  *         description: Low stock products
  */
 router.get('/reports/low-stock', getLowStockProducts);
+
+/**
+ * @swagger
+ * /api/products/reports/inventory-summary:
+ *   get:
+ *     summary: Get inventory summary statistics
+ *     tags: [Products]
+ *     responses:
+ *       200:
+ *         description: Inventory summary with totals and averages
+ */
+router.get('/reports/inventory-summary', getInventorySummary);
+
+/**
+ * @swagger
+ * /api/products/reports/by-category:
+ *   get:
+ *     summary: Get products grouped by category
+ *     tags: [Products]
+ *     responses:
+ *       200:
+ *         description: Products statistics by category
+ */
+router.get('/reports/by-category', getProductsByCategory);
 
 /**
  * @swagger

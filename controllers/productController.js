@@ -5,7 +5,7 @@ const Category = require('../models/Category');
 // @route   GET /api/products
 const getProducts = async (req, res, next) => {
   try {
-    const { search, category, minPrice, maxPrice, inStock, sortBy = 'createdAt', order = 'desc', page = 1, limit = 10 } = req.query;
+    const { search, category, minPrice, maxPrice, inStock, dateFrom, dateTo, sortBy = 'createdAt', order = 'desc', page = 1, limit = 10 } = req.query;
     
     let query = { isActive: true };
     
@@ -24,6 +24,13 @@ const getProducts = async (req, res, next) => {
       query.basePrice = {};
       if (minPrice) query.basePrice.$gte = parseFloat(minPrice);
       if (maxPrice) query.basePrice.$lte = parseFloat(maxPrice);
+    }
+    
+    // Date range filter
+    if (dateFrom || dateTo) {
+      query.createdAt = {};
+      if (dateFrom) query.createdAt.$gte = new Date(dateFrom);
+      if (dateTo) query.createdAt.$lte = new Date(dateTo);
     }
     
     // In stock filter
@@ -151,11 +158,107 @@ const getLowStockProducts = async (req, res, next) => {
   }
 };
 
+// @desc    Get inventory summary report
+// @route   GET /api/products/reports/inventory-summary
+const getInventorySummary = async (req, res, next) => {
+  try {
+    const summary = await Product.aggregate([
+      { $match: { isActive: true } },
+      { $unwind: '$variants' },
+      {
+        $group: {
+          _id: null,
+          totalProducts: { $addToSet: '$_id' },
+          totalVariants: { $sum: 1 },
+          totalInventory: { $sum: '$variants.inventory' },
+          averagePrice: { $avg: '$variants.price' },
+          lowStockCount: {
+            $sum: { $cond: [{ $lte: ['$variants.inventory', 10] }, 1, 0] }
+          },
+          outOfStockCount: {
+            $sum: { $cond: [{ $eq: ['$variants.inventory', 0] }, 1, 0] }
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          totalProducts: { $size: '$totalProducts' },
+          totalVariants: 1,
+          totalInventory: 1,
+          averagePrice: { $round: ['$averagePrice', 2] },
+          lowStockCount: 1,
+          outOfStockCount: 1
+        }
+      }
+    ]);
+
+    res.json({ 
+      success: true, 
+      data: summary[0] || {
+        totalProducts: 0,
+        totalVariants: 0,
+        totalInventory: 0,
+        averagePrice: 0,
+        lowStockCount: 0,
+        outOfStockCount: 0
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Get products by category report
+// @route   GET /api/products/reports/by-category
+const getProductsByCategory = async (req, res, next) => {
+  try {
+    const report = await Product.aggregate([
+      { $match: { isActive: true } },
+      {
+        $lookup: {
+          from: 'categories',
+          localField: 'category',
+          foreignField: '_id',
+          as: 'categoryInfo'
+        }
+      },
+      { $unwind: '$categoryInfo' },
+      {
+        $group: {
+          _id: '$category',
+          categoryName: { $first: '$categoryInfo.name' },
+          productCount: { $sum: 1 },
+          totalInventory: { $sum: { $sum: '$variants.inventory' } },
+          averagePrice: { $avg: '$basePrice' }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          categoryId: '$_id',
+          categoryName: 1,
+          productCount: 1,
+          totalInventory: 1,
+          averagePrice: { $round: ['$averagePrice', 2] }
+        }
+      },
+      { $sort: { productCount: -1 } }
+    ]);
+
+    res.json({ success: true, count: report.length, data: report });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getProducts,
   getProduct,
   createProduct,
   updateProduct,
   deleteProduct,
-  getLowStockProducts
+  getLowStockProducts,
+  getInventorySummary,
+  getProductsByCategory
 };

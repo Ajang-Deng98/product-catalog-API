@@ -36,6 +36,32 @@ const router = express.Router();
  *   get:
  *     summary: Get all categories
  *     tags: [Categories]
+ *     parameters:
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: dateFrom
+ *         schema:
+ *           type: string
+ *           format: date
+ *       - in: query
+ *         name: dateTo
+ *         schema:
+ *           type: string
+ *           format: date
+ *       - in: query
+ *         name: sortBy
+ *         schema:
+ *           type: string
+ *           default: name
+ *       - in: query
+ *         name: order
+ *         schema:
+ *           type: string
+ *           enum: [asc, desc]
+ *           default: asc
  *     responses:
  *       200:
  *         description: List of categories
