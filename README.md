@@ -214,6 +214,113 @@ Content-Type: application/json
 }
 ```
 
+### Step 3: Update Category (use category ID)
+```http
+PUT http://localhost:1991/api/categories/64f5a1b2c3d4e5f6a7b8c9d0
+Content-Type: application/json
+
+{
+  "name": "Consumer Electronics",
+  "description": "Updated description for consumer electronic devices and gadgets"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "_id": "64f5a1b2c3d4e5f6a7b8c9d0",
+    "name": "Consumer Electronics",
+    "description": "Updated description for consumer electronic devices and gadgets",
+    "isActive": true,
+    "createdAt": "2023-09-04T10:30:00.000Z",
+    "updatedAt": "2023-09-04T11:45:00.000Z"
+  }
+}
+```
+
+### Step 4: Update Product (use product ID from step 2)
+```http
+PUT http://localhost:1991/api/products/64f5a1b2c3d4e5f6a7b8c9d1
+Content-Type: application/json
+
+{
+  "name": "Premium Wireless Headphones",
+  "description": "Updated premium wireless headphones with enhanced noise cancellation",
+  "category": "64f5a1b2c3d4e5f6a7b8c9d0",
+  "basePrice": 249.99,
+  "variants": [
+    {
+      "color": "Black",
+      "sku": "WH-001-BLK",
+      "price": 249.99,
+      "inventory": 45,
+      "discount": 15
+    },
+    {
+      "color": "White",
+      "sku": "WH-001-WHT",
+      "price": 249.99,
+      "inventory": 25,
+      "discount": 10
+    },
+    {
+      "color": "Silver",
+      "sku": "WH-001-SLV",
+      "price": 249.99,
+      "inventory": 20,
+      "discount": 5
+    }
+  ],
+  "tags": ["wireless", "audio", "bluetooth", "noise-cancellation", "premium"]
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "_id": "64f5a1b2c3d4e5f6a7b8c9d1",
+    "name": "Premium Wireless Headphones",
+    "description": "Updated premium wireless headphones with enhanced noise cancellation",
+    "category": {
+      "_id": "64f5a1b2c3d4e5f6a7b8c9d0",
+      "name": "Consumer Electronics"
+    },
+    "basePrice": 249.99,
+    "variants": [
+      {
+        "color": "Black",
+        "sku": "WH-001-BLK",
+        "price": 249.99,
+        "inventory": 45,
+        "discount": 15
+      },
+      {
+        "color": "White", 
+        "sku": "WH-001-WHT",
+        "price": 249.99,
+        "inventory": 25,
+        "discount": 10
+      },
+      {
+        "color": "Silver",
+        "sku": "WH-001-SLV",
+        "price": 249.99,
+        "inventory": 20,
+        "discount": 5
+      }
+    ],
+    "tags": ["wireless", "audio", "bluetooth", "noise-cancellation", "premium"],
+    "isActive": true,
+    "createdAt": "2023-09-04T10:35:00.000Z",
+    "updatedAt": "2023-09-04T12:00:00.000Z"
+  }
+}
+```
+
 ## 🧪 Testing
 
 ### Option 1: Swagger UI (Recommended)
@@ -238,6 +345,28 @@ curl http://localhost:1991/api/products
 curl -X POST http://localhost:1991/api/categories \
   -H "Content-Type: application/json" \
   -d '{"name":"Electronics","description":"Electronic devices"}'
+
+# Update category (replace {id} with actual category ID)
+curl -X PUT http://localhost:1991/api/categories/{id} \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Consumer Electronics","description":"Updated electronic devices"}'
+
+# Update product (replace {id} with actual product ID)  
+curl -X PUT http://localhost:1991/api/products/{id} \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name":"Updated Product Name",
+    "description":"Updated description",
+    "category":"64f5a1b2c3d4e5f6a7b8c9d0",
+    "basePrice":299.99,
+    "variants":[{
+      "color":"Blue",
+      "sku":"UP-001-BLU", 
+      "price":299.99,
+      "inventory":25,
+      "discount":5
+    }]
+  }'
 ```
 
 ## 📁 Project Structure
@@ -301,6 +430,43 @@ formativeassignment/
     }
   ]
 }
+```
+
+### Common PUT Operation Issues
+
+#### ❌ **404 Not Found Error**
+```bash
+# WRONG - Missing ID in URL
+PUT http://localhost:1991/api/categories
+# ERROR: 404 Not Found
+
+# CORRECT - Include valid ID in URL
+PUT http://localhost:1991/api/categories/64f5a1b2c3d4e5f6a7b8c9d0
+```
+
+#### ✅ **Proper PUT Request Format**
+```http
+PUT http://localhost:1991/api/categories/{valid-category-id}
+Content-Type: application/json
+
+{
+  "name": "Updated Category Name",
+  "description": "Updated description"
+}
+```
+
+#### 🔍 **How to Get Valid IDs**
+1. **Create a resource first** (POST request)
+2. **Copy the `_id` from the response**
+3. **Use that ID in your PUT request URL**
+
+Example workflow:
+```bash
+# 1. Create category and note the returned _id
+POST /api/categories → returns {"data": {"_id": "abc123..."}}
+
+# 2. Use that _id for updates
+PUT /api/categories/abc123...
 ```
 
 ### HTTP Status Codes
