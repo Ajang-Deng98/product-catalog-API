@@ -48,11 +48,18 @@ Currently no authentication required. All endpoints are publicly accessible.
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/categories` | Get all categories |
+| GET | `/api/categories` | Get all categories (with search & date filtering) |
 | GET | `/api/categories/:id` | Get single category |
 | POST | `/api/categories` | Create category |
 | PUT | `/api/categories/:id` | Update category |
 | DELETE | `/api/categories/:id` | Delete category |
+
+#### **Category Query Parameters**
+- `search` (string): Text search in name and description
+- `dateFrom` (string): Filter categories created from date (YYYY-MM-DD)
+- `dateTo` (string): Filter categories created to date (YYYY-MM-DD)
+- `sortBy` (string): Sort by field (name, createdAt) - default: name
+- `order` (string): Sort order (asc, desc) - default: asc
 
 ### **Products**
 
@@ -64,6 +71,21 @@ Currently no authentication required. All endpoints are publicly accessible.
 | PUT | `/api/products/:id` | Update product |
 | DELETE | `/api/products/:id` | Delete product |
 | GET | `/api/products/reports/low-stock` | Get low stock report |
+| GET | `/api/products/reports/inventory-summary` | **NEW**: Get inventory statistics |
+| GET | `/api/products/reports/by-category` | **NEW**: Get products grouped by category |
+
+#### **Product Query Parameters**
+- `search` (string): Text search in name, description, and tags
+- `category` (string): Filter by category ID
+- `minPrice` (number): Minimum price filter
+- `maxPrice` (number): Maximum price filter
+- `dateFrom` (string): **NEW**: Filter products created from date (YYYY-MM-DD)
+- `dateTo` (string): **NEW**: Filter products created to date (YYYY-MM-DD)
+- `inStock` (boolean): Filter only products with inventory > 0
+- `sortBy` (string): Sort by field (createdAt, price, name) - default: createdAt
+- `order` (string): Sort order (asc, desc) - default: desc
+- `page` (number): Page number for pagination - default: 1
+- `limit` (number): Items per page - default: 10
 
 ### **System**
 
@@ -188,6 +210,106 @@ GET /api/products/reports/low-stock?threshold=10
 }
 ```
 
+### **NEW: Inventory Summary Report**
+```http
+GET /api/products/reports/inventory-summary
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "totalProducts": 25,
+    "totalVariants": 48,
+    "totalInventory": 1250,
+    "averagePrice": 149.99,
+    "lowStockCount": 8,
+    "outOfStockCount": 3
+  }
+}
+```
+
+### **NEW: Products by Category Report**
+```http
+GET /api/products/reports/by-category
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "count": 3,
+  "data": [
+    {
+      "categoryId": "64f5a1b2c3d4e5f6a7b8c9d0",
+      "categoryName": "Electronics",
+      "productCount": 15,
+      "totalInventory": 680,
+      "averagePrice": 199.99
+    },
+    {
+      "categoryId": "64f5a1b2c3d4e5f6a7b8c9d1",
+      "categoryName": "Clothing",
+      "productCount": 8,
+      "totalInventory": 420,
+      "averagePrice": 79.99
+    }
+  ]
+}
+```
+
+### **NEW: Enhanced Category Search**
+```http
+GET /api/categories?search=electronics&dateFrom=2023-01-01&sortBy=name&order=asc
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "count": 2,
+  "data": [
+    {
+      "_id": "64f5a1b2c3d4e5f6a7b8c9d0",
+      "name": "Electronics",
+      "description": "Electronic devices and gadgets",
+      "isActive": true,
+      "createdAt": "2023-03-15T10:30:00.000Z"
+    }
+  ]
+}
+```
+
+### **NEW: Enhanced Product Search with Date Filtering**
+```http
+GET /api/products?search=wireless&dateFrom=2023-01-01&dateTo=2023-12-31&minPrice=50&maxPrice=300
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "count": 5,
+  "total": 5,
+  "pagination": {
+    "page": 1,
+    "pages": 1
+  },
+  "data": [
+    {
+      "_id": "...",
+      "name": "Wireless Headphones",
+      "basePrice": 199.99,
+      "createdAt": "2023-06-15T10:30:00.000Z",
+      "category": {
+        "name": "Electronics"
+      }
+    }
+  ]
+}
+```
+
 ## ⚠️ **Error Handling**
 
 ### **Error Response Format**
@@ -248,7 +370,11 @@ GET /api/products/reports/low-stock?threshold=10
 2. **Create Category:** `POST /api/categories`
 3. **Create Product:** `POST /api/products` (use category ID)
 4. **Search Products:** `GET /api/products?search=...`
-5. **Low Stock Report:** `GET /api/products/reports/low-stock`
+5. **Filter by Date:** `GET /api/products?dateFrom=2023-01-01&dateTo=2023-12-31`
+6. **Low Stock Report:** `GET /api/products/reports/low-stock`
+7. **NEW: Inventory Summary:** `GET /api/products/reports/inventory-summary`
+8. **NEW: Category Report:** `GET /api/products/reports/by-category`
+9. **NEW: Search Categories:** `GET /api/categories?search=electronics`
 
 ## 📊 **Query Parameters**
 

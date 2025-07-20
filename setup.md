@@ -66,8 +66,17 @@ curl -X POST http://localhost:1991/api/categories \
   -H "Content-Type: application/json" \
   -d '{"name":"Electronics","description":"Electronic devices"}'
 
-# Get categories
-curl http://localhost:1991/api/categories
+# Get categories with search
+curl "http://localhost:1991/api/categories?search=electronics"
+
+# Get products with date filtering
+curl "http://localhost:1991/api/products?dateFrom=2023-01-01&dateTo=2023-12-31"
+
+# NEW: Get inventory summary
+curl http://localhost:1991/api/products/reports/inventory-summary
+
+# NEW: Get products by category
+curl http://localhost:1991/api/products/reports/by-category
 ```
 
 ## 📁 **Project Structure**
@@ -178,6 +187,55 @@ Your API is now ready with:
 - ✅ Database connected
 - ✅ Documentation available
 - ✅ Testing tools ready
+
+## 🆕 **New Enhanced Features**
+
+### **Enhanced Search & Filtering**
+```bash
+# Date-based filtering for products
+GET /api/products?dateFrom=2023-01-01&dateTo=2023-12-31
+
+# Category search with date filtering
+GET /api/categories?search=electronics&dateFrom=2023-01-01
+
+# Combined filters
+GET /api/products?search=wireless&minPrice=50&maxPrice=300&dateFrom=2023-06-01
+```
+
+### **Advanced Reporting**
+```bash
+# Comprehensive inventory statistics
+GET /api/products/reports/inventory-summary
+# Returns: total products, variants, inventory, averages, stock alerts
+
+# Products distribution by category
+GET /api/products/reports/by-category
+# Returns: product count, inventory, and averages per category
+
+# Traditional low stock report
+GET /api/products/reports/low-stock?threshold=10
+```
+
+### **Enhanced Category Management**
+```bash
+# Text search in categories
+GET /api/categories?search=electronics
+
+# Sort categories by different fields
+GET /api/categories?sortBy=createdAt&order=desc
+
+# Filter categories by creation date
+GET /api/categories?dateFrom=2023-01-01&dateTo=2023-12-31
+```
+
+### **Testing the New Features**
+1. **Create sample data** with different dates
+2. **Test date filtering** on both products and categories
+3. **Try the new reports** to see inventory insights
+4. **Use category search** to find specific categories
+5. **Combine multiple filters** for complex queries
+
+Visit **http://localhost:1991/api-docs** for interactive testing of all new features!
 - ✅ Error handling active
 
 **Next Steps:**

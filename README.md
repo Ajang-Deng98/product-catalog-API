@@ -81,11 +81,13 @@ npm start
 | `PUT` | `/api/products/:id` | Update existing product | None |
 | `DELETE` | `/api/products/:id` | Delete product | None |
 | `GET` | `/api/products/reports/low-stock` | Low stock report | None |
+| `GET` | `/api/products/reports/inventory-summary` | **NEW**: Inventory statistics | None |
+| `GET` | `/api/products/reports/by-category` | **NEW**: Products by category | None |
 
 ### 📂 Categories
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
-| `GET` | `/api/categories` | Get all categories | None |
+| `GET` | `/api/categories` | Get all categories (with search) | None |
 | `GET` | `/api/categories/:id` | Get single category | None |
 | `POST` | `/api/categories` | Create new category | None |
 | `PUT` | `/api/categories/:id` | Update category | None |
@@ -101,7 +103,7 @@ npm start
 
 ### Query Parameters
 ```http
-GET /api/products?search=laptop&category=64f5a1b2c3d4e5f6a7b8c9d0&minPrice=100&maxPrice=1000&inStock=true&sortBy=price&order=asc&page=1&limit=10
+GET /api/products?search=laptop&category=64f5a1b2c3d4e5f6a7b8c9d0&minPrice=100&maxPrice=1000&dateFrom=2023-01-01&dateTo=2023-12-31&inStock=true&sortBy=price&order=asc&page=1&limit=10
 ```
 
 | Parameter | Type | Description | Example |
@@ -110,11 +112,26 @@ GET /api/products?search=laptop&category=64f5a1b2c3d4e5f6a7b8c9d0&minPrice=100&m
 | `category` | string | Filter by category ID | `?category=64f5a1b2...` |
 | `minPrice` | number | Minimum price filter | `?minPrice=50` |
 | `maxPrice` | number | Maximum price filter | `?maxPrice=500` |
+| `dateFrom` | string | **NEW**: Filter from date (YYYY-MM-DD) | `?dateFrom=2023-01-01` |
+| `dateTo` | string | **NEW**: Filter to date (YYYY-MM-DD) | `?dateTo=2023-12-31` |
 | `inStock` | boolean | Only in-stock products | `?inStock=true` |
 | `sortBy` | string | Sort field (createdAt, price, name) | `?sortBy=price` |
 | `order` | string | Sort order (asc, desc) | `?order=desc` |
 | `page` | number | Page number (pagination) | `?page=2` |
 | `limit` | number | Items per page | `?limit=20` |
+
+### Category Search Parameters
+```http
+GET /api/categories?search=electronics&dateFrom=2023-01-01&sortBy=name&order=asc
+```
+
+| Parameter | Type | Description | Example |
+|-----------|------|-------------|----------|
+| `search` | string | **NEW**: Text search (name, description) | `?search=electronics` |
+| `dateFrom` | string | **NEW**: Filter from date | `?dateFrom=2023-01-01` |
+| `dateTo` | string | **NEW**: Filter to date | `?dateTo=2023-12-31` |
+| `sortBy` | string | **NEW**: Sort field (name, createdAt) | `?sortBy=name` |
+| `order` | string | **NEW**: Sort order (asc, desc) | `?order=desc` |
 
 ### Example Queries
 ```bash
@@ -124,8 +141,20 @@ GET /api/products?search=wireless&maxPrice=200
 # Electronics category, sorted by price
 GET /api/products?category=64f5a1b2c3d4e5f6a7b8c9d0&sortBy=price&order=asc
 
+# Products created in 2023
+GET /api/products?dateFrom=2023-01-01&dateTo=2023-12-31
+
 # Low stock report with custom threshold
 GET /api/products/reports/low-stock?threshold=5
+
+# NEW: Get inventory summary statistics
+GET /api/products/reports/inventory-summary
+
+# NEW: Get products grouped by category
+GET /api/products/reports/by-category
+
+# NEW: Search categories created this month
+GET /api/categories?search=electronics&dateFrom=2023-09-01
 ```
 
 ## 📝 Sample Usage
