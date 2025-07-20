@@ -86,8 +86,8 @@ npm start
 | `PUT` | `/api/products/:id` | Update existing product | None |
 | `DELETE` | `/api/products/:id` | Delete product | None |
 | `GET` | `/api/products/reports/low-stock` | Low stock report | None |
-| `GET` | `/api/products/reports/inventory-summary` | **NEW**: Inventory statistics | None |
-| `GET` | `/api/products/reports/by-category` | **NEW**: Products by category | None |
+| `GET` | `/api/products/reports/inventory-summary` |: Inventory statistics | None |
+| `GET` | `/api/products/reports/by-category` |: Products by category | None |
 
 ### 📂 Categories
 | Method | Endpoint | Description | Auth |
@@ -132,35 +132,13 @@ GET /api/categories?search=electronics&dateFrom=2023-01-01&sortBy=name&order=asc
 
 | Parameter | Type | Description | Example |
 |-----------|------|-------------|----------|
-| `search` | string | **NEW**: Text search (name, description) | `?search=electronics` |
-| `dateFrom` | string | **NEW**: Filter from date | `?dateFrom=2023-01-01` |
-| `dateTo` | string | **NEW**: Filter to date | `?dateTo=2023-12-31` |
-| `sortBy` | string | **NEW**: Sort field (name, createdAt) | `?sortBy=name` |
-| `order` | string | **NEW**: Sort order (asc, desc) | `?order=desc` |
+| `search` | string |  Text search (name, description) | `?search=electronics` |
+| `dateFrom` | string | Filter from date | `?dateFrom=2023-01-01` |
+| `dateTo` | string | Filter to date | `?dateTo=2023-12-31` |
+| `sortBy` | string | Sort field (name, createdAt) | `?sortBy=name` |
+| `order` | string | Sort order (asc, desc) | `?order=desc` |
 
-### Example Queries
-```bash
-# Search wireless products under $200
-GET /api/products?search=wireless&maxPrice=200
-
-# Electronics category, sorted by price
-GET /api/products?category=64f5a1b2c3d4e5f6a7b8c9d0&sortBy=price&order=asc
-
-# Products created in 2023
-GET /api/products?dateFrom=2023-01-01&dateTo=2023-12-31
-
-# Low stock report with custom threshold
-GET /api/products/reports/low-stock?threshold=5
-
-# NEW: Get inventory summary statistics
-GET /api/products/reports/inventory-summary
-
-# NEW: Get products grouped by category
-GET /api/products/reports/by-category
-
-# NEW: Search categories created this month
-GET /api/categories?search=electronics&dateFrom=2023-09-01
-```
+`
 
 ## 📝 Sample Usage
 
